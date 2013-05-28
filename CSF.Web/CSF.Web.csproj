@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CSF.Web</RootNamespace>
     <AssemblyName>CSF.Web</AssemblyName>
-    <ReleaseVersion>2.5.0</ReleaseVersion>
+    <ReleaseVersion>2.5.1</ReleaseVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
