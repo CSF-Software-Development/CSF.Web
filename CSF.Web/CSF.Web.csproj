@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CSF.Web</RootNamespace>
     <AssemblyName>CSF.Web</AssemblyName>
-    <ReleaseVersion>2.5.1</ReleaseVersion>
+    <ReleaseVersion>2.5.2</ReleaseVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -55,6 +56,8 @@
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="HttpResponseExtensions.cs" />
     <Compile Include="AspNetSessionStorage.cs" />
+    <Compile Include="Mvc\ExtensibleModelBinder.cs" />
+    <Compile Include="Mvc\IModularModelBinder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
