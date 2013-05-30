@@ -56,6 +56,8 @@
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="HttpResponseExtensions.cs" />
     <Compile Include="AspNetSessionStorage.cs" />
+    <Compile Include="Mvc\ExtensibleModelBinder.cs" />
+    <Compile Include="Mvc\IModularModelBinder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
