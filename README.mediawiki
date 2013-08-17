@@ -1,8 +1,6 @@
-== CSF Software utilities ==
-This is a library of useful utilities created for and by [http://csf-dev.com/ CSF Software Limited].  All source files
-contained within this project are, unless otherwise indicated, copyright © CSF Software Limited.
-At present, the best documentation available is the
-[http://csf-software-development.github.com/csf-software-utilities/api/index.html auto-generated API Documentation].
+== CSF.Web ==
+This is an extension to the [https://github.com/csf-dev/CSF.Core CSF.Core utilities library], for for dealing
+with web-related projects, including those that use ASP.NET MVC v2 and up.
 
 === Open source license ===
 All source files within this project are released as open source software, under the terms of the
