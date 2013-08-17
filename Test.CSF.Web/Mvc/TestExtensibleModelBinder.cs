@@ -108,8 +108,7 @@ namespace Test.CSF.Web.Mvc
     }
 
     [Test]
-    [Ignore("The implementation should be improved.  Two modular binders of the same type are useless, for now " +
-            "the two duplicate binders are not detected and no error is thrown.")]
+    [Description("Diagnoses #4 - duplicate model binder types should be rejected.")]
     [ExpectedException(typeof(InvalidOperationException))]
     public void TestRegisterDuplicateTypes()
     {

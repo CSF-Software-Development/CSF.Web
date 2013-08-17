@@ -163,6 +163,13 @@ namespace CSF.Web.Mvc
 
       foreach(Type type in binderTypes)
       {
+        if(this.RegisteredBinders.Any(x => x.GetType() == type)
+           || binders.Any(x => x.GetType() == type))
+        {
+          throw new InvalidOperationException("Binder types collection must not include types that have already " +
+                                              "been registered.  Multiple binders of the exact same type are useless.");
+        }
+
         IModularModelBinder binder = (IModularModelBinder) Activator.CreateInstance(type);
         binders.Add(binder);
       }
