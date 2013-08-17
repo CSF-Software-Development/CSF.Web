@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Test.CSF.Web</RootNamespace>
     <AssemblyName>Test.CSF.Web</AssemblyName>
-    <ReleaseVersion>2.5.2</ReleaseVersion>
+    <ReleaseVersion>3.0.0</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
