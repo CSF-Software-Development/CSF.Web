@@ -31,15 +31,6 @@ namespace CSF.Web
   /// </summary>
   public class AspNetSessionStorage : ISessionStorage
   {
-    #region properties
-    
-    /// <summary>
-    /// <para>A <see cref="ReaderWriterLockSlim"/> for controlling synchronised access to this instance.</para>
-    /// </summary>
-    protected ReaderWriterLockSlim SyncRoot = new ReaderWriterLockSlim();
-    
-    #endregion
-    
     #region SessionStorage implementation
     
     /// <summary>
@@ -65,33 +56,20 @@ namespace CSF.Web
     /// </exception>
     public virtual TValue Get<TValue>(string key)
     {
-      TValue output;
-      
       if(key == null)
       {
         throw new ArgumentNullException("key");
       }
-      
-      try
+
+      HttpSessionState state = this.GetStorageBackend();
+
+      object tempOutput = state[key];
+      if(tempOutput == null)
       {
-        this.SyncRoot.EnterReadLock();
-        HttpSessionState state = this.GetStorageBackend();
-        object tempOutput = state[key];
-        if(tempOutput == null)
-        {
-          throw new ArgumentException(String.Format("There is no value stored at the key '{0}'.", key));
-        }
-        output = (TValue) tempOutput;
+        throw new ArgumentException(String.Format("There is no value stored at the key '{0}'.", key));
       }
-      finally
-      {
-        if(this.SyncRoot.IsReadLockHeld)
-        {
-          this.SyncRoot.ExitReadLock();
-        }
-      }
-      
-      return output;
+
+      return (TValue) tempOutput;
     }
     
     /// <summary>
@@ -118,18 +96,27 @@ namespace CSF.Web
     /// </exception>
     public virtual bool TryGet<TValue>(string key, out TValue output)
     {
+      if(key == null)
+      {
+        throw new ArgumentNullException("key");
+      }
+
       bool result = false;
       output = default(TValue);
-      
-      try
+
+      HttpSessionState state = this.GetStorageBackend();
+
+      object tempOutput = state[key];
+      if(tempOutput != null)
       {
-        output = this.Get<TValue>(key);
-        result = true;
+        try
+        {
+          output = (TValue) tempOutput;
+          result = true;
+        }
+        catch(InvalidCastException) {}
       }
-      // Just drop these on the floor, we will be returning false if they occur
-      catch(ArgumentException) {}
-      catch(InvalidCastException) {}
-      
+
       return result;
     }
     
@@ -157,20 +144,13 @@ namespace CSF.Web
       {
         throw new ArgumentNullException("key");
       }
+      if(value == null)
+      {
+        throw new ArgumentNullException("value");
+      }
       
-      try
-      {
-        this.SyncRoot.EnterWriteLock();
-        HttpSessionState backend = this.GetStorageBackend();
-        backend[key] = value;
-      }
-      finally
-      {
-        if(this.SyncRoot.IsWriteLockHeld)
-        {
-          this.SyncRoot.ExitWriteLock();
-        }
-      }
+      HttpSessionState backend = this.GetStorageBackend();
+      backend[key] = value;
     }
     
     /// <summary>
@@ -191,20 +171,9 @@ namespace CSF.Web
       {
         throw new ArgumentNullException("key");
       }
-      
-      try
-      {
-        this.SyncRoot.EnterWriteLock();
-        HttpSessionState backend = this.GetStorageBackend();
-        backend.Remove(key);
-      }
-      finally
-      {
-        if(this.SyncRoot.IsWriteLockHeld)
-        {
-          this.SyncRoot.ExitWriteLock();
-        }
-      }
+
+      HttpSessionState backend = this.GetStorageBackend();
+      backend.Remove(key);
     }
     
     /// <summary>
@@ -213,19 +182,8 @@ namespace CSF.Web
     /// </summary>
     public virtual void Abandon()
     {
-      try
-      {
-        this.SyncRoot.EnterWriteLock();
-        HttpSessionState backend = this.GetStorageBackend();
-        backend.Abandon();
-      }
-      finally
-      {
-        if(this.SyncRoot.IsWriteLockHeld)
-        {
-          this.SyncRoot.ExitWriteLock();
-        }
-      }
+      HttpSessionState backend = this.GetStorageBackend();
+      backend.Abandon();
     }
     
     #endregion
